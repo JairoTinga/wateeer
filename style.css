@@ -1,0 +1,178 @@
+/* Reset margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Make the body fill the screen and use flexbox to center the box */
+body {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    background-color: #f0f0f0;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Style the navigation bar */
+.navbar {
+    width: 100%;
+    background-color: #333;
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.navbar .tab {
+    padding: 14px 20px;
+    display: block;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+
+.navbar .tab:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Style the centered box */
+.center-box {
+    width: 1500px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: flex-start;
+    margin-top: 20px; /* Add some space below the navbar */
+    position: relative; /* For positioning meter lines */
+    height: 600px; /* Height for the water levels */
+    overflow: hidden; /* Ensures no overflow when animating water */
+}
+
+/* Vertical meter scale on the left */
+.meter-scale {
+    width: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 10px;
+    color: black;
+    font-size: 18px;
+}
+
+.meter-level {
+    height: 80px; /* Increased spacing between levels */
+    width: 100%;
+    text-align: right;
+    padding-right: 10px;
+    color: #000; /* Default color for all levels */
+    text-shadow: -1px -1px 0 #2d353d, 1px -1px 0 #2d353d, -1px 1px 0 #2d353d, 1px 1px 0 #2d353d;
+}
+
+/* Example of custom colors for specific meter levels (optional) */
+.meter-level:nth-child(1) { color: #ff0000; }
+.meter-level:nth-child(2) { color: #ff0000; }
+.meter-level:nth-child(3) { color: #ffa500; }
+.meter-level:nth-child(4) { color: #ffff00; }
+.meter-level:nth-child(5) { color: #ffff00; }
+.meter-level:nth-child(6) { color: #008000; }
+.meter-level:nth-child(7) { color: #008000; }
+
+.water-container {
+    position: relative;
+    height: 500px;
+    width: 100%;
+    border: 1px solid black;
+}
+
+.water-bar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: blue;
+    transition: height 1s ease;
+}
+
+/* Time intervals */
+.time-intervals {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.time-btn {
+    padding: 10px 20px;
+    width: 100px;
+    background-color: #2d353d;
+    border: none;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.time-btn:hover {
+    background-color: #596068;
+}
+
+/* Input field and button for adding a phone number */
+#add-phone-input {
+    width: 250px; /* Slightly wider for a cleaner look */
+    padding: 12px;
+    margin-right: 10px;
+    border: 1px solid #ccc; /* Add border for a cleaner appearance */
+    border-radius: 5px; /* Add rounded corners */
+    font-size: 16px; /* Larger font for readability */
+}
+
+#add-btn {
+    padding: 10px 15px;
+    background-color: #2d353d;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px; /* Larger font for consistency */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+#add-btn:hover {
+    background-color: #596068; /* Darker color on hover for better feedback */
+}
+
+/* Receiver list adjustments */
+.receiver-list {
+    max-height: auto; /* Limit the height of the list */
+    border: 1px solid #ccc;
+    padding: auto;
+    border-radius: 5px; /* Rounded corners */
+    margin-top: 15px;
+}
+
+.receiver-item {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+}
+
+.delete-btn {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: darkred; /* Feedback for delete button */
+}
+

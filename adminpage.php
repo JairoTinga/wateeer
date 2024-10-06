@@ -28,7 +28,7 @@
             <div class="ripple"></div>
         </div>
     </div>
-    <div class="time-intervals">
+    <!-- <div class="time-intervals">
         <button class="time-btn" data-interval="2s">2s</button>
         <button class="time-btn" data-interval="1hr">1hr</button>
         <button class="time-btn" data-interval="1day">1 day</button>
@@ -37,57 +37,51 @@
         <button class="time-btn" data-interval="3months">3 months</button>
         <button class="time-btn" data-interval="1year">1 year</button>
         <button class="time-btn" data-interval="all-time">All-time</button>
-    </div>
+     </di> -->
 
     <script>
-      $(document).ready(function() {
-        var waterLevel = 0;
-        var signalColor = 'green';
+  $(document).ready(function() {
+    var waterLevel = 0;
 
-        function updateWaterLevel() {
-          $.ajax({
-            type: "POST",
-            url: "get_current_water_level.php",
-            dataType: "json",
-            success: function(data) {
-              waterLevel = data.water_level;
-              signalColor = data.signal_color;
+    function updateWaterLevel() {
+      $.ajax({
+        type: "GET",
+        url: "https://blynk.cloud/external/api/get?token=A2aaNzwGNXBJC6pjxQj1NZhfqOC-Y6Ls&V0", // Replace with your Blynk Token and Virtual Pin
+        dataType: "json",
+        success: function(data) {
+          waterLevel = parseFloat(data);
 
-              // Adjust signal color based on water level
-              if (waterLevel >= 0 && waterLevel < 2) {
-                signalColor = 'green';
-              } else if (waterLevel >= 2 && waterLevel < 4) {
-                signalColor = 'yellow';
-              } else {
-                signalColor = 'red';
-              }
+          // Reverse the water level for display (0 meters on sensor = 6 meters on display)
+          var displayWaterLevel = 6 - waterLevel;
 
-              $("#water-level-value").text(waterLevel.toFixed(2));
-              $("#signal-color").text(signalColor);
+          let waterHeight = (displayWaterLevel / 6) * 500; // Convert water level to height (500px max)
 
-              let waterHeight = (waterLevel / 6) * 600; // Convert water level to height
+          console.log("Sensor water level: " + waterLevel);
+          console.log("Display water level: " + displayWaterLevel);
+          console.log("Water height: " + waterHeight);
 
-              console.log("Water level: " + waterLevel);
-              console.log("Signal color: " + signalColor);
-              console.log("Water height: " + waterHeight);
-              
-              $(".water-bar").css("height", waterHeight + "px");
-            },
-            error: function(xhr, status, error) {
-              console.log(xhr.responseText);
-            }
-          });
+          // Update water level bar height
+          $(".water-bar").css("height", waterHeight + "px");
+
+          // Adjust signal color based on display water level
+          if (displayWaterLevel >= 5) {
+            $(".water-bar").css("background-color", "red"); // Red alert, high water level (dangerous)
+          } else if (displayWaterLevel >= 3 && displayWaterLevel < 5) {
+            $(".water-bar").css("background-color", "yellow"); // Yellow alert, moderate water level
+          } else {
+            $(".water-bar").css("background-color", "green"); // Green, safe water level
+          }
+        },
+        error: function(xhr, status, error) {
+          console.log(xhr.responseText);
         }
-
-        // Handle time interval clicks
-        $(".time-btn").click(function() {
-          var interval = $(this).data("interval");
-          console.log("Selected interval: " + interval);
-          // Logic to adjust graph for the selected time interval
-        });
-
-        setInterval(updateWaterLevel, 1000); // Update every 1 second
       });
-    </script>
+    }
+
+    // Set interval to update water level from Blynk API every 2 seconds
+    setInterval(updateWaterLevel, 2000);
+  });
+</script>
+
 </body>
 </html>

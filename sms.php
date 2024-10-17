@@ -4,14 +4,14 @@ include 'connection.php'; // Ensure this points to your connection.php
 
 // Add a new phone number
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['phone_number'])) {
-    $newPhoneNumber = htmlspecialchars($_POST['phone_number']);
+    $newPhoneNumber = htmlspecialchars(string:$_POST['phone_number']);
     if (!empty($newPhoneNumber)) {
         // Insert new phone number into the database
-        $stmt = $conn->prepare("INSERT INTO phone_numbers (phone_number) VALUES (:phone_number)");
-        $stmt->execute(['phone_number' => $newPhoneNumber]);
+        $stmt = $conn->prepare(query:"INSERT INTO phone_numbers (phone_number) VALUES (:phone_number)");
+        $stmt->execute(params:['phone_number' => $newPhoneNumber]);
         
         // Redirect to prevent form resubmission
-        header('Location: sms.php');
+        header(header:'Location: sms.php');
         exit; // Always call exit after header redirection
     }
 }
@@ -20,11 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['phone_number'])) {
 if (isset($_GET['delete'])) {
     $idToDelete = (int) $_GET['delete'];
     // Delete the phone number from the database
-    $stmt = $conn->prepare("DELETE FROM phone_numbers WHERE id = :id");
-    $stmt->execute(['id' => $idToDelete]);
+    $stmt = $conn->prepare(query:"DELETE FROM phone_numbers WHERE id = :id");
+    $stmt->execute(params:['id' => $idToDelete]);
 
     // Redirect to prevent accidental resubmission
-    header('Location: sms.php');
+    header(header:'Location: sms.php');
     exit; // Always call exit after header redirection
 }
 
@@ -45,7 +45,7 @@ $phoneNumbers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
     <div class="navbar">
-        <a href="adminpage.php" class="tab">Water Levels</a>
+        <a href="adminpage.php" class="tab">Water Level</a>
         <a href="water_level_history.php" class="tab">Water Level History</a>
         <a href="sms.php" class="tab">SMS</a>
     </div>
@@ -69,10 +69,12 @@ $phoneNumbers = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <!-- Input form for adding a phone number -->
-    <form action="sms.php" method="post">
-        <input type="text" id="add-phone-input" name="phone_number" placeholder="Enter phone number" required>
-        <button type="submit" id="add-btn">Add</button>
-    </form>
+    <div class="add-phone-container">
+        <form action="sms.php" method="post">
+            <input type="text" id="add-phone-input" name="phone_number" placeholder="Enter phone number" required>
+            <button type="submit" id="add-btn">Add</button>
+        </form>
+    </div>
 
 </body>
 </html>
